@@ -1,0 +1,275 @@
+<!--
+Local Database App - Using jQuery Mobile
+Feedback Mobile App
+Revision History:
+    Created: Bruno Penna Barbosa de Almeida, 2018-03-18
+    Modified: Bruno Penna Barbosa de Almeida, 2018-04-11
+email: dbrunob@gmail.com
+
+-->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale1.0, user-scalable=no">
+        <title>Feedback App</title>
+        <!--Lib scripts-->
+        <script src="js/lib/jquery-2.1.4.js"></script>
+        <script src="js/lib/jquery.mobile-1.4.5.js"></script>
+        <!--Lib Style sheets-->
+        <link rel="stylesheet" href="css/lib/jquery.mobile-1.4.5.css">
+        <!--jQuery validation library-->
+        <script src="js/lib/jquery.validate.js"></script>
+        <!--BA Scripts-->
+        <script src="js/BAdatabase.js"></script>
+        <script src="js/BAfeedbackDAL.js"></script>
+        <script src="js/BAglobal.js"></script>
+        <script src="js/BAutil.js"></script>
+        <script src="js/BAFacade.js"></script>
+        <!--BA Style sheet-->
+        <link rel="stylesheet" href="css/BAmystyle.css">
+
+
+    </head>
+    <body>
+        <!--Home Page-->
+        <div data-role="page" id="BAHomePage">
+            <header data-role="header" data-position="fixed" data-theme="b">
+                <h1>Feedback App</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BAHomePage" data-icon="home" data-theme="a"
+                               class="ui-btn-active ui-state-persist">Home</a>
+                        </li>
+                        <li><a href="#BAAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                        <li><a href="#BAViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                        <li><a href="#BASettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <div id="mainDiv">
+                    <br>
+                    <h1>Mobile FeedBack App</h1>
+                    <p>Welcome to the Mobile Feedback app. A prototype designed for mobile programming class.
+                        This is the first iteration of the app to keep track of different places you visited along with
+                        your reviews.</p>
+                    <div align="center">
+                        <img src="img/BA-Icon.png" height="154" width="154" alt="Trip Icon"/>
+                    </div>
+                </div>
+                <div id="contactDiv">
+                    <p>Please feel free to contact me if you have any suggestions.</p>
+                    <a href="#" data-role="button" data-icon="plus"> Call: 226-792-5558 </a>
+                    <a href="mailto: dbrunob@gmail.com" data-role="button" data-icon="plus"> dbrunob@gmail.com </a>
+                    <p>Website:</p>
+                    <a href="https://brunobalmeida.github.io/" target="_blank" data-role="button" data-icon="plus">Conestoga
+                        College</a>
+                </div>
+            </section>
+            <footer data-role="footer" data-position="fixed" data-theme="b">
+                <h4>&copy;2018 Bruno Almeida</h4>
+            </footer>
+        </div>
+
+        <!--Add Page-->
+        <div data-role="page" id="BAAddFeedbackPage">
+            <header data-role="header" data-position="fixed" data-theme="b">
+                <h1>Add a Feedback</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BAHomePage" data-icon="home" data-theme="a">Home</a></li>
+                        <li><a href="#BAAddFeedbackPage" data-icon="plus" data-theme="a"
+                               class="ui-btn-active ui-state-persist">Add</a></li>
+                        <li><a href="#BAViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                        <li><a href="#BASettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <form id="BAAddForm">
+                    <label for="BABusName">Business Name:</label>
+                    <input type="Text" id="BABusName" name="BABusName">
+
+                    <label for="BAComboType">Type:</label>
+                    <select name="BAComboType" id="BAComboType" data-native-menu="false">
+
+                    </select>
+
+                    <label for="BAEmail">Reviewer Email:</label>
+                    <input type="Text" id="BAEmail" name="BAEmail">
+
+                    <label for="BAComments">Reviewer Comments:</label>
+                    <textarea cols="2" rows="2" id="BAComments" name="BAComments"></textarea>
+
+                    <label for="BAReviewDate">Review Date:</label>
+                    <input type="date" id="BAReviewDate" name="BAReviewDate">
+
+                    <input type="checkbox" id="BAchkratings" name="BAchkratings">
+                    <label for="BAchkratings">Do you want to add your ratings?</label>
+
+                    <div id="BACollapsableDiv">
+
+                        <label for="BAFoodQuality">Food Quality (0-5):</label>
+                        <input type="number" id="BAFoodQuality" name="BAFoodQuality" value="0">
+
+                        <label for="BAService">Service (0-5):</label>
+                        <input type="number" id="BAService" name="BAService" value="0">
+
+                        <label for="BAValue">Value (0-5):</label>
+                        <input type="number" id="BAValue" name="BAValue" value="0">
+
+                        <label for="BARatings">Overall Rating (calculated):</label>
+                        <input type="number" id="BARatings" name="BARatings" disabled>
+
+                    </div>
+
+                    <button type="button" data-role="button" id="BABtnSave" name="BABtnSave"
+                            class="ui-btn-active ui-state-persist" data-inline="true" data-theme="a">Save
+                    </button>
+                </form>
+            </section>
+            <footer data-role="footer" data-position="fixed" data-theme="b">
+                <h4>&copy;2018 Bruno Almeida</h4>
+            </footer>
+        </div>
+
+        <!--List of Reviews Page-->
+        <div data-role="page" id="BAViewFeedbackPage">
+            <header data-role="header" data-position="fixed" data-theme="b">
+                <h1>List of Reviews</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BAHomePage" data-icon="home" data-theme="a">Home</a></li>
+                        <li><a href="#BAAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                        <li><a href="#BAViewFeedbackPage" data-icon="grid" data-theme="a"
+                               class="ui-btn-active ui-state-persist">Reviews</a></li>
+                        <li><a href="#BASettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <ul id="BAFeedbackList" data-role="listview" class="ui-listview-inset" >
+
+                </ul>
+            </section>
+            <footer data-role="footer" data-position="fixed" data-theme="b">
+                <h4>&copy;2018 Bruno Almeida</h4>
+            </footer>
+        </div>
+
+        <!--Modify Feedback Page-->
+        <div data-role="page" id="BAEditFeedbackPage">
+            <header data-role="header" data-position="fixed" data-theme="b">
+                <h1>Modify Feedback</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BAHomePage" data-icon="home" data-theme="a">Home</a></li>
+                        <li><a href="#BAAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                        <li><a href="#BAViewFeedbackPage" data-icon="grid" data-theme="a"
+                               class="ui-btn-active ui-state-persist">Reviews</a></li>
+                        <li><a href="#BASettingsPage" data-icon="gear" data-theme="a">Settings</a></li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <form id="BAModifyForm">
+                    <label for="BABusNameModify">Business Name:</label>
+                    <input type="Text" id="BABusNameModify" name="BABusNameModify" value="BahRobbi Craft Shop">
+
+                    <label for="BAComboTypeModify">Type:</label>
+                    <select name="BAComboTypeModify" id="BAComboTypeModify" data-native-menu="false">
+                        <option value="Other">Other</option>
+                        <option value="Asian">Asian</option>
+                        <option value="Canadian">Canadian</option>
+                    </select>
+
+
+                    <label for="BAEmailModify">Reviewer Email:</label>
+                    <input type="Text" id="BAEmailModify" name="BAEmailModify" value="jdoe@email.com">
+
+                    <label for="BACommentsModify">Reviewer Comments:</label>
+                    <textarea cols="2" rows="2" id="BACommentsModify"
+                              name="BACommentsModify">Excellent artwork.</textarea>
+
+                    <label for="BAReviewDateModify">Review Date:</label>
+                    <input type="date" id="BAReviewDateModify" name="BAReviewDateModify">
+
+                    <input type="checkbox" id="BAchkratingsModify" name="BAchkratingsModify">
+                    <label for="BAchkratingsModify">Do you want to add your ratings?</label>
+
+                    <div id="BACollapsableDivModify">
+
+                        <label for="BAFoodQualityModify">Food Quality (0-5):</label>
+                        <input type="number" id="BAFoodQualityModify" name="BAFoodQualityModify" value="0">
+
+                        <label for="BAServiceModify">Service (0-5):</label>
+                        <input type="number" id="BAServiceModify" name="BAServiceModify" value="0">
+
+                        <label for="BAValueModify">Value (0-5):</label>
+                        <input type="number" id="BAValueModify" name="BAValueModify" value="0">
+
+                        <label for="BARatingsModify">Overall Rating (calculated):</label>
+                        <input type="number" id="BARatingsModify" name="BARatingsModify" disabled>
+
+                    </div>
+
+
+                    <div data-role="controlgroup" data-type="horizontal">
+                        <a href="#BAViewFeedbackPage" type="button" data-role="button" id="BABtnCancel" name="BABtnCancel"
+                                style="background-color: yellow;">Cancel
+                        </a>
+                        <button type="button" data-role="button" id="BABtnDelete" name="BABtnDelete"
+                                data-theme="b">Delete
+                        </button>
+                        <button type="button" data-role="button" id="BABtnUpdate" name="BABtnUpdate"
+                                class="ui-btn-active ui-state-persist">Update
+                        </button>
+                    </div>
+                </form>
+            </section>
+            <footer data-role="footer" data-position="fixed" data-theme="b">
+                <h4>&copy;2018 Bruno Almeida</h4>
+            </footer>
+        </div>
+
+        <!--Settings Feedback Page-->
+        <div data-role="page" id="BASettingsPage">
+            <header data-role="header" data-position="fixed" data-theme="b">
+                <h1>Settings</h1>
+                <div data-role="navbar" data-iconpos="top">
+                    <ul>
+                        <li><a href="#BAHomePage" data-icon="home" data-theme="a">Home</a></li>
+                        <li><a href="#BAAddFeedbackPage" data-icon="plus" data-theme="a">Add</a></li>
+                        <li><a href="#BAViewFeedbackPage" data-icon="grid" data-theme="a">Reviews</a></li>
+                        <li><a href="#BASettingsPage" data-icon="gear" data-theme="a"
+                               class="ui-btn-active ui-state-persist">Settings</a></li>
+                    </ul>
+                </div>
+            </header>
+            <section data-role="content">
+                <form id="BASettingsForm">
+
+                    <label for="BADefaultEmail">Default Reviewer Email:</label>
+                    <input type="Text" id="BADefaultEmail" name="BADefaultEmail"
+                           value="bpennabarbosade2825@conestogac.on.ca">
+
+
+                    <button type="button" data-role="button" id="BABtnSaveDefaults" name="BABtnSaveDefaults"
+                            class="ui-btn-active ui-state-persist">Save Defaults
+                    </button>
+                    <button type="button" data-role="button" id="BABtnClearDb" name="BABtnClearDb"
+                            data-theme="b">Clear Database
+                    </button>
+
+                </form>
+            </section>
+            <footer data-role="footer" data-position="fixed" data-theme="b">
+                <h4>&copy;2018 Bruno Almeida</h4>
+            </footer>
+        </div>
+
+
+
+
+    </body>
+</html>
